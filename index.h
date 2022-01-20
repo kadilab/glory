@@ -97,11 +97,11 @@ input:checked + .slider .off
 <body style="background-color: rgb(12, 1, 51); margin-left: 10%; margin-right: 10%;">
           
              <h1 style="color: rgb(255, 255, 255); text-align: center;">
-                 COMMANDE MAISON
+                 DASHBOARD
              </h1>
              <center>
                 <div style="width: auto; height: auto; background-color: rgb(255, 255, 255); border-radius: 10px; padding: 5%;">
-                  
+                  // COMMAND DES LUMIERES
                     <h1 style="color: rgb(12, 1, 51);">COMMANDE LUMIERE</h1>
                      <h2 style="color: rgb(12, 1, 51);">LAMPE 1</h2>
                     <label class="switch">
@@ -133,8 +133,9 @@ input:checked + .slider .off
                          <!--END-->
                         </div>
                        </label>
+                      //  COMMANDE DES PRISES
                        <h1 style="color: rgb(12, 1, 51);">COMMANDE PRISE</h1>
-                     <h2 style="color: rgb(12, 1, 51);">LAMPE 1</h2>
+                     <h2 style="color: rgb(12, 1, 51);">PRISE 1</h2>
                     <label class="switch">
                         <input type="checkbox" id="togBtn" name="prise1" onclick="togle(this)">
                         <div class="slider round">
@@ -143,26 +144,28 @@ input:checked + .slider .off
                          <span class="off">OFF</span>
                          <!--END-->
                         </div>
-                       </label>
-                      
+                       </label>  
                  </div>
                   <h6 style="color: white;">KADILAB</h6>
              </center>
              
 
 <script>
+
          function togle(state)
          {
-            var dvPassport = document.getElementById("state");
-            var xhttp = new XMLHttpRequest();
+            var dvPassport = document.getElementById("state");//recuperation de l'element cliker
+            var xhttp = new XMLHttpRequest();  // variable de la requette xhttp
             
-            if(state.checked)
-            {
+            if(state.checked) //verifi si le l'interupteur est sur on ou of
+            { 
+              //requette  d'allumage
               xhttp.open("GET",state.name, true); //Handle readADC server on ESP8266
               xhttp.send();
             }
             else
             {
+               //requette d'extinction
               xhttp.open("GET",state.name+"off", true); //Handle readADC server on ESP8266
                xhttp.send();
             }

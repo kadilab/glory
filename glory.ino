@@ -9,6 +9,9 @@ const int pins[4] = {16,5,4,0};
 const int relais1 = 16 ,relais2 = 5,relais3 = 4,relais4 = 0;
 const int capteur_feux = 14;
 
+#define Cap_light  A0
+#define MAX_LIGHT 255
+
 
 IPAddress local_IP(192,168,43,22);
 IPAddress gateway(192,168,43,9);
@@ -53,6 +56,33 @@ void lampe4off() {
 
 void setup() { 
   
+  inits();   
+}
+void loop() {
+   Serial.print("Feux : ");
+   Serial.println(digitalRead(capteur_feux));
+   server.handleClient();  //Handle client requests
+}
+
+//verification de la lumiere du jour
+boolean read_value()
+{
+   float val = analogRead(Cap_light);
+   if(val > MAX_LIGHT)
+   {
+    // si c'est la journer on renvoi true
+      return true;   
+   }
+   else
+   {
+    //si c'est la nuit on renoi false
+     return false;
+   }
+}
+
+//initialisation des fonctions du projet
+void inits()
+{
   Serial.begin(115200);  
   for(int i = 0; i<4;i++)
   {
@@ -60,8 +90,8 @@ void setup() {
       digitalWrite(pins[i],HIGH);
   }
   pinMode(capteur_feux, INPUT);
+  pinMode(Cap_light, INPUT);
   
-
   WiFi.softAPConfig(local_IP, gateway, subnet);
   boolean result = WiFi.softAP("mtp-01", "mtp01234");
   Serial.print("Soft-AP IP address = ");
@@ -89,11 +119,4 @@ void setup() {
   Serial.println("HTTP server started");
 
   delay(5000);
-  
-   
-}
-void loop() {
-   Serial.print("Feux : ");
-   Serial.println(digitalRead(capteur_feux));
-   server.handleClient();  //Handle client requests
 }
